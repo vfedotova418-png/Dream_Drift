@@ -55,5 +55,25 @@ extension SceneThemeExtension on SceneTheme {
     }
   }
 
-  //add diff colors for glow and jellyfish later
+  Color get glowColor {
+    switch (this) {
+      case SceneTheme.oceanSpace:
+        return const Color(0x88AEEEEE);
+      case SceneTheme.sunsetDeep:
+        return const Color(0x88FFB6C1);
+      case SceneTheme.auroraForest:
+        return const Color(0x88A8E6CF);
+    }
+  }
+
+  Color get jellyfishBodyColor {
+    switch (this) {
+      case SceneTheme.oceanSpace:
+        return const Color(0x557BC8E8);
+      case SceneTheme.sunsetDeep:
+        return const Color(0x55FF8FAB);
+      case SceneTheme.auroraForest:
+        return const Color(0x5588D8B0);
+    }
+  }
 }
