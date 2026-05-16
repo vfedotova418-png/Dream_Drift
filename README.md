@@ -29,7 +29,7 @@ Dream Drift — это атмосферное Flutter-приложение, со
 1. Клонируйте репозиторий
 
 ```bash
-git clone https://github.com/vfedotova418-png/Subnautica_Interactive_Archive.git
+git clone https://github.com/vfedotova418-png/Dream_Drift.git
 cd dream_drift
 ```
 
