@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dream_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   final SharedPreferences prefs;
@@ -60,7 +61,71 @@ class MenuScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 48),
-              //add transition to dream screen here
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, _, _) =>
+                          DreamScreen(
+                            prefs: prefs,
+                          ),
+                      transitionsBuilder:
+                          (
+                            _,
+                            animation,
+                            _,
+                            child,
+                          ) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                      transitionDuration:
+                          const Duration(
+                            milliseconds: 800,
+                          ),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(
+                        horizontal: 48,
+                        vertical: 16,
+                      ),
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(30),
+                    border: Border.all(
+                      color: const Color(
+                        0x88AEEEEE,
+                      ).withOpacity(0.5),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(
+                          0x88AEEEEE,
+                        ).withOpacity(0.2),
+                        blurRadius: 20,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    'Begin',
+                    style: TextStyle(
+                      color: Colors.white
+                          .withOpacity(0.9),
+                      fontSize: 18,
+                      letterSpacing: 6,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

@@ -25,11 +25,38 @@ class SettingsSheet extends StatefulWidget {
 class _SettingsSheetState
     extends State<SettingsSheet> {
   late double _volume;
+  late SceneTheme _selectedTheme;
 
   @override
   void initState() {
     super.initState();
     _volume = widget.volume;
+    _selectedTheme = widget.currentTheme;
+  }
+
+  @override
+  void didUpdateWidget(
+    covariant SettingsSheet oldWidget,
+  ) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentTheme !=
+        widget.currentTheme) {
+      setState(() {
+        _selectedTheme = widget.currentTheme;
+      });
+    }
+    if (oldWidget.volume != widget.volume) {
+      setState(() {
+        _volume = widget.volume;
+      });
+    }
+  }
+
+  void _onThemeSelected(SceneTheme theme) {
+    setState(() {
+      _selectedTheme = theme;
+    });
+    widget.onThemeChanged(theme);
   }
 
   @override
@@ -42,13 +69,13 @@ class _SettingsSheetState
         ).withOpacity(0.97),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: widget.currentTheme.glowColor
+          color: _selectedTheme.glowColor
               .withOpacity(0.2),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: widget.currentTheme.glowColor
+            color: _selectedTheme.glowColor
                 .withOpacity(0.1),
             blurRadius: 30,
             spreadRadius: 5,
@@ -78,6 +105,7 @@ class _SettingsSheetState
             ),
           ),
           const SizedBox(height: 24),
+
           Center(
             child: Text(
               'Settings',
@@ -92,6 +120,7 @@ class _SettingsSheetState
             ),
           ),
           const SizedBox(height: 32),
+
           Row(
             children: [
               Icon(
@@ -119,16 +148,14 @@ class _SettingsSheetState
           const SizedBox(height: 8),
           SliderTheme(
             data: SliderThemeData(
-              activeTrackColor: widget
-                  .currentTheme
+              activeTrackColor: _selectedTheme
                   .glowColor
                   .withOpacity(0.7),
               inactiveTrackColor: Colors.white
                   .withOpacity(0.1),
               thumbColor:
-                  widget.currentTheme.glowColor,
-              overlayColor: widget
-                  .currentTheme
+                  _selectedTheme.glowColor,
+              overlayColor: _selectedTheme
                   .glowColor
                   .withOpacity(0.1),
               trackHeight: 3,
@@ -144,8 +171,9 @@ class _SettingsSheetState
             ),
           ),
           const SizedBox(height: 24),
+
           Text(
-            'Color Theme',
+            'Colour Theme',
             style: TextStyle(
               color: Colors.white.withOpacity(
                 0.6,
@@ -162,10 +190,10 @@ class _SettingsSheetState
               theme,
             ) {
               final isSelected =
-                  theme == widget.currentTheme;
+                  theme == _selectedTheme;
               return GestureDetector(
                 onTap: () =>
-                    widget.onThemeChanged(theme),
+                    _onThemeSelected(theme),
                 child: AnimatedContainer(
                   duration: const Duration(
                     milliseconds: 300,
@@ -218,19 +246,24 @@ class _SettingsSheetState
           ),
           const SizedBox(height: 8),
           Center(
-            child: Text(
-              widget.currentTheme.label,
-              style: TextStyle(
-                color: widget
-                    .currentTheme
-                    .glowColor
-                    .withOpacity(0.6),
-                fontSize: 11,
-                letterSpacing: 2,
+            child: AnimatedSwitcher(
+              duration: const Duration(
+                milliseconds: 300,
+              ),
+              child: Text(
+                _selectedTheme.label,
+                key: ValueKey(_selectedTheme),
+                style: TextStyle(
+                  color: _selectedTheme.glowColor
+                      .withOpacity(0.6),
+                  fontSize: 11,
+                  letterSpacing: 2,
+                ),
               ),
             ),
           ),
           const SizedBox(height: 16),
+
           Center(
             child: Text(
               'music: [dream] by sylvia plath',
