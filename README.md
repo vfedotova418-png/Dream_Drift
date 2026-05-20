@@ -48,7 +48,8 @@ flutter run -d windows
 ## 📦 Установка на Android
 
 Скачайте готовый APK:
-[app-release.apk](build\app\outputs\flutter-apk\app-release.apk)
+
+[Download APK](https://github.com/vfedotova418-png/Dream_Drift/releases/latest/download/app-release.apk)
 
 ## 📁 Структура проекта
 
