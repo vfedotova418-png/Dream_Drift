@@ -39,15 +39,16 @@ cd dream_drift
 flutter pub get
 ```
 
-3. Добавьте фоновый трек
-
-Поместите файл dream.mp3 в папку assets/audio/. Убедитесь, что файл присутствует и путь указан в pubspec.yaml.
-
-4. Запустите приложение
+3. Запустите приложение
 
 ```bash
 flutter run -d windows
 ```
+
+## 📦 Установка на Android
+
+Скачайте готовый APK:
+[app-release.apk](build\app\outputs\flutter-apk\app-release.apk)
 
 ## 📁 Структура проекта
 

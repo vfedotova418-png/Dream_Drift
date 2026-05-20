@@ -88,8 +88,6 @@ class _DreamScreenState
         onVolumeChanged: _setVolume,
         onThemeChanged: (theme) {
           _setTheme(theme);
-          Navigator.pop(context);
-          _showSettings();
         },
       ),
     );

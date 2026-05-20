@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'menu_screen.dart';
+import '../models/scene_theme.dart';
 
 class SplashScreen extends StatefulWidget {
   final SharedPreferences prefs;
@@ -19,10 +20,14 @@ class _SplashScreenState
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeIn;
+  late SceneTheme _theme;
 
   @override
   void initState() {
     super.initState();
+    final themeIndex =
+        widget.prefs.getInt('theme') ?? 0;
+    _theme = SceneTheme.values[themeIndex];
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -69,16 +74,11 @@ class _SplashScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF0A0E27),
-              Color(0xFF111B3D),
-              Color(0xFF0F3460),
-              Color(0xFF0A1628),
-            ],
+            colors: _theme.backgroundColors,
           ),
         ),
         child: Center(
@@ -89,9 +89,8 @@ class _SplashScreenState
               children: [
                 Icon(
                   Icons.water_drop_rounded,
-                  color: const Color(
-                    0x88AEEEEE,
-                  ).withOpacity(0.8),
+                  color: _theme.glowColor
+                      .withOpacity(0.8),
                   size: 64,
                 ),
                 const SizedBox(height: 24),

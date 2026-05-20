@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dream_screen.dart';
+import '../models/scene_theme.dart';
 
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
   final SharedPreferences prefs;
   const MenuScreen({
     super.key,
@@ -10,19 +11,36 @@ class MenuScreen extends StatelessWidget {
   });
 
   @override
+  State<MenuScreen> createState() =>
+      _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  late SceneTheme _theme;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTheme();
+  }
+
+  void _loadTheme() {
+    final themeIndex =
+        widget.prefs.getInt('theme') ?? 0;
+    setState(() {
+      _theme = SceneTheme.values[themeIndex];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF0A0E27),
-              Color(0xFF111B3D),
-              Color(0xFF0F3460),
-              Color(0xFF0A1628),
-            ],
+            colors: _theme.backgroundColors,
           ),
         ),
         child: Center(
@@ -31,9 +49,8 @@ class MenuScreen extends StatelessWidget {
             children: [
               Icon(
                 Icons.water_drop_rounded,
-                color: const Color(
-                  0x88AEEEEE,
-                ).withOpacity(0.7),
+                color: _theme.glowColor
+                    .withOpacity(0.7),
                 size: 56,
               ),
               const SizedBox(height: 20),
@@ -62,13 +79,13 @@ class MenuScreen extends StatelessWidget {
               ),
               const SizedBox(height: 48),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  await Navigator.push(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (_, _, _) =>
                           DreamScreen(
-                            prefs: prefs,
+                            prefs: widget.prefs,
                           ),
                       transitionsBuilder:
                           (
@@ -88,6 +105,7 @@ class MenuScreen extends StatelessWidget {
                           ),
                     ),
                   );
+                  _loadTheme();
                 },
                 child: Container(
                   padding:
@@ -99,16 +117,14 @@ class MenuScreen extends StatelessWidget {
                     borderRadius:
                         BorderRadius.circular(30),
                     border: Border.all(
-                      color: const Color(
-                        0x88AEEEEE,
-                      ).withOpacity(0.5),
+                      color: _theme.glowColor
+                          .withOpacity(0.5),
                       width: 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(
-                          0x88AEEEEE,
-                        ).withOpacity(0.2),
+                        color: _theme.glowColor
+                            .withOpacity(0.2),
                         blurRadius: 20,
                         spreadRadius: 2,
                       ),

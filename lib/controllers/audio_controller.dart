@@ -14,7 +14,9 @@ class AudioController {
     await _player.setReleaseMode(
       ReleaseMode.loop,
     );
-    await _player.setVolume(_volume);
+    await _player.setVolume(
+      _isMuted ? 0.0 : _volume,
+    );
     _player.resume();
   }
 
